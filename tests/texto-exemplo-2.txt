@@ -1,0 +1,19 @@
+import String;
+let a = 1;
+let b = 2;
+let c = 3;
+let d = 4;
+let e = 5;
+
+let numberOfEvens = 2;
+for [i:(0,n,2)] {
+	for [i:(0,m,1)] {
+		if [i * 2 == 0] {
+			a = 12 + 2;
+			b = 4 - 2;
+			c = 8 / 4;
+			d = 2 * 3;
+			e = 2 ^ 8;
+		} 
+	}
+}

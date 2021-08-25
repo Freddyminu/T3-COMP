@@ -1,0 +1,33 @@
+import math;
+let n = stdin();
+const numberOfEvens = 2.33333;
+for [i:(0,n,1)] {
+	for [i:(0,m,3)] {
+		for [i:(0,j,10)] {
+			if [i * 3 == 1] {
+				NumberOfPuevas+=3;
+			} else {
+				Flymode();
+			}
+			switch[n] {
+				case [4] {
+					math();
+				}
+				default {
+					println("Default!!");
+					import math;
+				}
+			}
+			while [n != 25 ] {
+				math();
+			}
+			do {
+				math();
+				import math;
+				n++;
+			} while [n != 25];
+		}
+	}
+}
+$$ isso eh um comentário
+$$ isso eh um outro comentário
