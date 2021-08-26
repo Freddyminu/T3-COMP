@@ -1,11 +1,12 @@
 import String;
-let a = 1;
-let b = 2;
-let c = 3;
-let d = 4;
-let e = 5;
+int a = 1;
+int b = 2;
+int c = 3;
+int d = 4;
+int e = 5;
+String j = "Alo";
 
-let numberOfEvens = 2;
+int numberOfEvens = 2;
 for [i:(0,n,2)] {
 	for [i:(0,m,1)] {
 		if [i * 2 == 0] {

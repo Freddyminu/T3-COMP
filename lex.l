@@ -71,6 +71,10 @@ COMENTARIO $$.*
 "-"         { return T_Minus;   }
 "return"    { return T_Return;  }
 "const"    	{ return T_Const;   }
+"int"    	{ return T_Int;   }
+"float"    	{ return T_Float;   }
+"bool"    	{ return T_Bool;   }
+"String"    { return T_LongChar;   }
 
 {ConstINT}      	{ yylval.ival = atof(yytext); return T_IntValue;		}
 {ConstFLOAT}      	{ yylval.ival = atof(yytext); return T_FloatValue;		}

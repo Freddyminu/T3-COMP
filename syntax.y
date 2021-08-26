@@ -46,7 +46,7 @@ void generateFooter(void);	/* generate  footer for class to be able to compile t
 int varaiblesNum = 1; 	/* new variable will be issued this number, java starts with 1, 0 is 'this' */
 int labelsCount = 0;	/* to generate labels */
 
-typedef enum {INT_T, FLOAT_T, BOOL_T, VOID_T, ERROR_T} type_enum;
+typedef enum {INT_T, FLOAT_T, BOOL_T, VOID_T, ERROR_T, STRING_T} type_enum;
 
 map<string, pair<int,type_enum> > symbTab;
 
@@ -112,6 +112,7 @@ void yyerror(const char* s);
 	/* ========================================================================== */
 
 
+
 %token T_Let T_Import T_Func;
 %token T_OpenParen T_CloseParen T_OpenCloseParen
 %token T_OpenBracket T_CloseBracket 
@@ -121,10 +122,13 @@ void yyerror(const char* s);
 %token T_UnderScore T_Percent T_ComercialAND T_Return T_Const;
 %token T_EndLine;
 %token T_Comment;
+%token T_Int T_Float T_Bool T_LongChar
 %token T_Not T_EqualsEQ T_NegativeEquals T_Or T_And T_SmallerThan T_SmallerThanEQ T_BiggerThan T_BiggerThanEQ
 %token<ival> T_IntValue;
 %token<fval> T_FloatValue;
 %token<sval> T_String T_Biblioteca T_Identificador;
+
+%token<idval> T_Identificador;
 
 %type<ival> logical_expression;
 %type<fval> expression type;
@@ -138,33 +142,167 @@ void yyerror(const char* s);
 	/* ============================ Sessão Gramatica ============================ */
 	/* ========================================================================== */
 
-%start method_body
+%start program
 %% 
 
-method_body: 
-	{	generateHeader();	}
-	statement_list
+program: {	generateHeader();	}
+	lines
 	marker
 	{
 		backpatch($2.nextList,$3);
 		generateFooter();
 	}
 	;
-statement_list: 
-	 statement 
-	| 
-	statement marker statement_list 
-	{
-		backpatch($1.nextList,$2);
-		$$.nextList = $3.nextList;
-	}
-	;
+
 marker:
 {
 	$$ = labelsCount;
 	writeCode(genLabel() + ":");
-}
-;
+};
+
+lines: line
+	| line marker lines {
+			backpatch($1.nextList,$2);
+			$$.nextList = $3.nextList;
+		}
+	| /* empty */
+	;
+
+line:  T_EndLine
+    | variable_declaration {vector<int> * v = new vector<int>(); $$.nextList =v;} T_DotComma
+    | attribution {vector<int> * v = new vector<int>(); $$.nextList =v;} T_DotComma
+    | function_usage {vector<int> * v = new vector<int>(); $$.nextList =v;} T_DotComma
+    | logical_structure
+    | import {vector<int> * v = new vector<int>(); $$.nextList =v;} T_DotComma
+    | T_Comment
+    ;
+
+variable_declaration: primitive_type T_Identificador T_Equals variable  {
+			string str($2);
+			if($1 == INT_T)
+			{
+				defineVar(str,INT_T);
+			}else if ($1 == FLOAT_T)
+			{
+				defineVar(str,FLOAT_T);
+			}
+			else if ($1 == STRING_T) {
+				defineVar(str, STRING_T)
+			}
+
+			if(checkId(str))
+			{
+				if($3.sType == symbTab[str].second)
+				{
+					if($3.sType == INT_T)
+					{
+						writeCode("istore " + to_string(symbTab[str].first));
+					}else if ($3.sType == FLOAT_T)
+					{
+						writeCode("fstore " + to_string(symbTab[str].first));
+					}
+					else if($3.sType == STRING_T) {
+						writeCode("sstore " + to_string(symbTab[str].first));
+					}
+				}
+				else
+				{
+					cast(str,$3.sType);	/* do casting */
+				}
+			}else{
+				string err = "identifier: "+str+" isn't declared in this scope";
+				yyerror(err.c_str());
+			}
+
+		}
+        | T_Const T_Identificador T_Equals variable {
+			string str($2);
+			if($1 == INT_T)
+			{
+				defineVar(str,INT_T);
+			}else if ($1 == FLOAT_T)
+			{
+				defineVar(str,FLOAT_T);
+			}
+			else if ($1 == STRING_T) {
+				defineVar(str, STRING_T)
+			}
+
+			if(checkId(str))
+			{
+				if($3.sType == symbTab[str].second)
+				{
+					if($3.sType == INT_T)
+					{
+						writeCode("istore " + to_string(symbTab[str].first));
+					}else if ($3.sType == FLOAT_T)
+					{
+						writeCode("fstore " + to_string(symbTab[str].first));
+					}
+					else if($3.sType == STRING_T) {
+						writeCode("sstore " + to_string(symbTab[str].first));
+					}
+				}
+				else
+				{
+					cast(str,$3.sType);	/* do casting */
+				}
+			}else{
+				string err = "identifier: "+str+" isn't declared in this scope";
+				yyerror(err.c_str());
+			}
+		}
+		;
+
+variable: T_String
+    | expression {
+		printf(" Resultado: %d\n", $1);
+	}
+    | function_usage
+	;
+
+assignment: 
+	IDENTIFIER EQUALS expression SEMI_COLON
+	{
+		string str($1);
+		/* after expression finishes, its result should be on top of stack. 
+		we just store the top of stack to the identifier*/
+		if(checkId(str))
+		{
+			if($3.sType == symbTab[str].second)
+			{
+				if($3.sType == INT_T)
+				{
+					writeCode("istore " + to_string(symbTab[str].first));
+				}else if ($3.sType == FLOAT_T)
+				{
+					writeCode("fstore " + to_string(symbTab[str].first));
+				}
+			}
+			else
+			{
+				cast(str,$3.sType);	/* do casting */
+			}
+		}else{
+			string err = "identifier: "+str+" isn't declared in this scope";
+			yyerror(err.c_str());
+		}
+	}
+	;
+
+primitive_type: 
+	T_Int {$$ = INT_T;}
+	| T_Float {$$ = FLOAT_T;}
+	| T_Bool {$$ = BOOL_T;}
+	| T_LongChar {$$ = STRING_T ;}
+	;
+
+
+	/* ========================================================================== */
+	/* =========================== NOSSO CÓDIGO ================================ */
+	/* ========================================================================== */
+
+
 statement: 
 	declaration {vector<int> * v = new vector<int>(); $$.nextList =v;}
 	|if {$$.nextList = $1.nextList;}
