@@ -1,27 +1,21 @@
-all: 
-	flex lex.l
-	bison -d syntax.y
-	g++ -std=c++11 lex.yy.c y.tab.c
+all: jasmin
 
-exec: all
-	./a.out
+lang.tab.c lang.tab.h:	lang.y
+	bison -d lang.y
 
-java:
-	javac test.java
-	javap -c test.class
+lex.yy.c: lang.lex lang.tab.h
+	flex lang.lex
 
-error: 
-	bison --verbose syntax.y
+lang: lex.yy.c lang.tab.c lang.tab.h
+	g++ -o analizador lang.tab.c lex.yy.c -g
 
-custom_run: all
-	./a.out tests/texto-exemplo-1.txt
-	java -jar ./jasmin-1.1/jasmin.jar output.j
-	java test
+jasmin: analizador
+	java -jar jasmin.jar -g output.jout
+	java output
 
-jasmine_temp:
-	java -jar ./jasmin-1.1/jasmin.jar output.j
+analizador: lang
+	./analizador entrada
 
-run:
-	java test
-
-exec_jasm: exec jasmine_temp run
+clean:
+	rm lang.output lang.tab.c lex.yy.c lang.tab.h
+	clear
