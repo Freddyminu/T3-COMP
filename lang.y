@@ -6,6 +6,15 @@
     #include<stdlib.h>
     #include<string.h>
     #include<math.h>
+
+    #include "symtable.cpp"
+    #include "jasminGen.cpp"
+
+    #define INT 0
+    #define FLOAT 1
+    #define STRING 2
+    #define FUNCTION 4
+
     extern FILE *yyin;
     extern FILE *yyout;
     extern int linha_num;    
@@ -15,6 +24,10 @@
     extern int cont_col;
     void yyerror(const char* s);
 
+    char label = 'A';
+
+    int type = -1;
+
     int cont = 0;
 %}
 
@@ -23,6 +36,15 @@
     int ival;
     int fval;
     char* sval;
+
+    struct VALUE{
+        int type;
+        union{
+            int intValue;
+            float floatValue;
+        };
+        bool isResult;
+    } value;
 }
 %define parse.error verbose
 
@@ -59,26 +81,28 @@
 %start program
 %%
 
-program: lines { printf("Program begins, Linha: %d Coluna: %d\n", cont_line, cont_col); }; 
+program: {initFile(); mainInit();} lines {mainEnd();}
+    ; 
 
 lines: lines line
         | /* empty */; 
 
-line:  T_EndLine { for(int i=0;i<cont;i++) printf("\t"); printf("Endline Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
+line:  T_EndLine
     | variable_declaration T_DotComma
-    | attribution T_DotComma { for(int i=0;i<cont;i++) printf("\t");  printf("Attribution Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
-    | function_usage T_DotComma {   printf("Function Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
-    | logical_structure {   printf("Logical Structure Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
-    | import T_DotComma {   printf("Import Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
-    | T_Comment {   printf("Comment Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
+    | attribution T_DotComma
+    | function_usage T_DotComma
+    | logical_structure
+    | import T_DotComma
+    | T_Comment
     ;
 
 import: T_Import T_Identificador ;
 
-variable_declaration: T_Let T_Identificador T_Equals variable {printf("Variable declaration Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}
-        | T_Const T_Identificador T_Equals variable { printf("Constant declaration Usage, Linha: %d Coluna: %d\n", cont_line, cont_col);}; 
+variable_declaration: T_Let T_Identificador T_Equals variable {putSym($2, type, 0); store($2);}
+        | T_Const T_Identificador T_Equals variable {putSym($2, type, 1); store($2);}
+        ;
 
-attribution: T_Identificador attribution_right
+attribution: T_Identificador attribution_right {store($1);}
         ;
 
 attribution_right:  T_Equals variable
@@ -121,32 +145,37 @@ structure_while: T_While T_OpenSquareBracket logical_expression T_CloseSquareBra
 
 structure_do: T_Do T_OpenBracket lines T_CloseBracket T_While T_OpenSquareBracket logical_expression T_CloseSquareBracket;
 
-logical_expression: expression T_EqualsEQ expression {$$ = $1 == $3;  }
-        | expression T_NegativeEquals expression {$$ = $1 != $3; }
-        | expression T_BiggerThan expression {$$ = $1 > $3; }
-        | expression T_SmallerThan expression {$$ = $1 < $3; }
-        | expression T_BiggerThanEQ expression {$$ = $1 >= $3; }
-        | expression T_SmallerThanEQ expression {$$ = $1 <= $3; }
-        | expression T_Or expression {$$ = $1 || $3; }
-        | expression T_And expression {$$ = $1 && $3; }
+logical_expression: expression T_EqualsEQ expression {$$ = $1 == $3; compar("eq",label);}
+        | expression T_NegativeEquals expression {$$ = $1 != $3; compar("ne",label);}
+        | expression T_BiggerThan expression {$$ = $1 > $3; compar("gt",label);}
+        | expression T_SmallerThan expression {$$ = $1 < $3; compar("lt",label); }
+        | expression T_BiggerThanEQ expression {$$ = $1 >= $3; compar("ge",label);}
+        | expression T_SmallerThanEQ expression {$$ = $1 <= $3; compar("le",label);}
+        | expression T_Or expression {$$ = $1 || $3; compar("or",label);}
+        | expression T_And expression {$$ = $1 && $3; compar("and",label);}
         | T_Not expression {$$ = !$2;};
 
-variable: T_String
-    | expression {printf(" Resultado: %d\n", $1);}
-    | function_usage;
+variable: T_String {type = STRING; string str=$1; output.push_back("\taload "+ str);}
+    | expression
+        // {printf(" Resultado: %d\n", $1);}
+    | function_usage {type = FUNCTION;};
 
 expression: type
-    | expression T_Plus expression { $$ =$1 + $3;}
-    | expression T_Minus expression { $$ = $1 - $3; }
-    | expression T_Times expression { $$ = $1 * $3; }
-    | expression T_Divide expression { $$ = $1 / $3; }
-    | T_Minus expression %prec T_Negative { $$ = -$2;}
-    | expression T_Power expression { $$ = pow($1, $3);}
-    | T_OpenParen expression T_CloseParen { $$ = $2; };
+    | expression T_Plus expression { $$ =$1 + $3; output.push_back("\tiadd");}
+    | expression T_Minus expression { $$ = $1 - $3; output.push_back("\tisub");}
+    | expression T_Times expression { $$ = $1 * $3; output.push_back("\timul");}
+    | expression T_Divide expression { $$ = $1 / $3; output.push_back("\tidiv");}
+    | T_Minus expression %prec T_Negative { $$ = -$2; output.push_back("\tineg");}
+    | expression T_Power expression { $$ = pow($1, $3); output.push_back("\tipow");}
+    | T_OpenParen expression T_CloseParen { $$ = $2; }
+    ;
 
-type: T_IntValue {$$ = $1;}
-    | T_FloatValue {$$ = $1;}
-    | T_Identificador {$$ = T_Identificador;}
+type: T_IntValue {$$ = $1; type=INT; output.push_back("\tldc "+to_string($1));}
+    | T_FloatValue {$$ = $1; type=FLOAT; output.push_back("\tldc "+to_string($1));}
+    | T_Identificador {
+                // string str=$1;
+                // load(str);
+            }
     ;
 
 optional_params: T_String
@@ -164,6 +193,10 @@ int main() {
     do{
         yyparse();
     } while(!feof(yyin));
+
+    showSymTable();
+
+    writeFile();
 
     return 0;
 }

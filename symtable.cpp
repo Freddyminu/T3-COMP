@@ -14,8 +14,10 @@ struct var{
     string name;
     int type;
     int local;
+    int constant;
 };
 vector<var>symtable;
+vector<var>::iterator itSymTable;
 
 void putSym(string nome, int type); // put symb coloca na tabela
 var getSym(string nome);            // pega o nome do symb da tabela 
@@ -24,15 +26,17 @@ void showSymTable();                // mostra a tabela
 bool areadyExists(string nome);         // verifica se ja exist
 bool checkType(string nome,int type);   // verifica se ja existe o nome e o tipo igual
 
-void putSym(string symName, int type){  
+void putSym(string symName, int type, int constant){  
     if( areadyExists(symName) ){
-        cout<<"A variavel \""<<symName<<"\" ja existe\n"<<endl;
-        exit(1);
+        var v = getSym(symName);
+        if (v.constant == 1) {
+            cout<<"A variavel \""<<symName<<"\" é uma constante e não pode ser mudada\n"<<endl;
+            exit(1);
+        }
+        // colocar aqui: exclusão da variável anterior
     }
-    symtable.push_back({symName,type,(int)symtable.size()});
-
-
-    return;
+    
+    symtable.push_back({symName,type,(int)symtable.size(),constant});
 }
 
 var getSym(string symName){
@@ -58,6 +62,8 @@ string getType(int type){
         return "float";
     else if(type == STRING)
         return "string";
+    else if(type == FUNC)
+        return "function";
     return "";
 }
 

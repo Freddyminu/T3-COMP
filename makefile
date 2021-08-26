@@ -1,21 +1,12 @@
-all: jasmin
-
-lang.tab.c lang.tab.h:	lang.y
-	bison -d lang.y
-
-lex.yy.c: lang.lex lang.tab.h
-	flex lang.lex
-
-lang: lex.yy.c lang.tab.c lang.tab.h
-	g++ -o analizador lang.tab.c lex.yy.c -g
-
-jasmin: analizador
-	java -jar jasmin.jar -g output.jout
-	java output
-
-analizador: lang
-	./analizador entrada
+all:
+	bison lang.y -d -v
+	flex lang.l
+	g++ -g -o lang lang.tab.c lex.yy.c -lm
+	./lang < texto-exemplo-2.txt
+        
+jasmin:
+	java -jar jasmin-2.4/jasmin-2.4/jasmin.jar java_bytecode.j
+	java java_class
 
 clean:
-	rm lang.output lang.tab.c lex.yy.c lang.tab.h
-	clear
+	rm -f *.o *~ lex.yy.c lang.tab.c lang.tab.h java_bytecode.j java_class.class lang.out lang

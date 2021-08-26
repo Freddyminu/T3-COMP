@@ -1,9 +1,16 @@
 import String;
-let a = 1;
-let b = 2;
-let c = 3;
+const a = stdin();
+let b = 33;
+let c = 344;
 let d = 4;
 let e = 5;
+const f = 20;
+
+let n = 2;
+let m = 4;
+let i = 0;
+
+let jorge = "STRING";
 
 let numberOfEvens = 2;
 for [i:(0,n,2)] {
@@ -17,3 +24,6 @@ for [i:(0,n,2)] {
 		} 
 	}
 }
+
+println("Teste");
+println(f);

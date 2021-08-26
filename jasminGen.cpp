@@ -57,7 +57,7 @@ void read(int type){
 }
 
 void writeFile(){
-    ofstream outFile ("output.jout");
+    ofstream outFile ("output.j");
     for(string line:output){
         outFile << line << "\n";
     }
@@ -112,6 +112,7 @@ void store(string name){
 
 void load(string name){
     var v = getSym(name);
+    cout << "Name: " << v.name << " Type: " << v.type << endl;
     if(v.type==STRING)
         output.push_back("\taload "+to_string(v.local));
     else if(v.type==INT)
