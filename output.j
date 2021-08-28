@@ -8,51 +8,22 @@
 .method public static main([Ljava/lang/String;)V
 	.limit stack 5
 	.limit locals 4
-	ldc 33
+	ldc 0
+	istore 0
+	ldc 0
 	istore 1
-	ldc 344
+	ldc 0
 	istore 2
-	ldc 4
-	istore 3
-	ldc 5
-	istore 4
-	ldc 20
-	istore 5
-	ldc 2
-	istore 6
-	ldc 4
-	istore 7
-	ldc 0
-	istore 8
-	aload "STRING"
-	astore 9
-	ldc 2
-	istore 10
-	ldc 0
-	ldc 2
-	ldc 0
-	ldc 1
-	ldc 2
-	imul
+	iload 2
 	ldc 0
 	if_icmpeq A1
-	ldc 12
-	ldc 2
-	iadd
+	goto A2
+A1:
 	ldc 4
-	ldc 2
-	isub
-	istore 1
-	ldc 8
-	ldc 4
-	idiv
 	istore 2
-	ldc 2
-	ldc 3
-	imul
-	istore 3
-	ldc 2
-	ldc 8
-	ipow
-	istore 4
+A2:
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload 2
+	invokevirtual java/io/PrintStream/println(I)V
+return
 .end method

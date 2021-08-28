@@ -1,0 +1,7 @@
+let n = 0;
+stdin(n);
+
+let k = 3;
+
+print(n);
+print(n);

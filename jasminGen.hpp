@@ -38,9 +38,9 @@ void mainEnd();
 void printInit();
 void printEnd(int type);
 
-int calc(VALUE op1,char* op,VALUE op2);
-
-void pen(string str);
-
 void go_to(char to, int num);
 void labelGen(char to, int num);
+
+void load(string name);
+void store(string name);
+void compare(string cm,char label);

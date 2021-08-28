@@ -52,55 +52,57 @@ extern int yydebug;
     T_Let = 258,
     T_Import = 259,
     T_Func = 260,
-    T_OpenParen = 261,
-    T_CloseParen = 262,
-    T_OpenCloseParen = 263,
-    T_OpenBracket = 264,
-    T_CloseBracket = 265,
-    T_Comma = 266,
-    T_Quote = 267,
-    T_DotComma = 268,
-    T_doubleDot = 269,
-    T_Dot = 270,
-    T_For = 271,
-    T_If = 272,
-    T_While = 273,
-    T_Else = 274,
-    T_Switch = 275,
-    T_Case = 276,
-    T_Default = 277,
-    T_Do = 278,
-    T_OpenSquareBracket = 279,
-    T_BackSlash = 280,
-    T_CloseSquareBracket = 281,
-    T_Equals = 282,
-    T_UnderScore = 283,
-    T_Percent = 284,
-    T_ComercialAND = 285,
-    T_Return = 286,
-    T_Const = 287,
-    T_EndLine = 288,
-    T_Comment = 289,
-    T_Not = 290,
-    T_EqualsEQ = 291,
-    T_NegativeEquals = 292,
-    T_Or = 293,
-    T_And = 294,
-    T_SmallerThan = 295,
-    T_SmallerThanEQ = 296,
-    T_BiggerThan = 297,
-    T_BiggerThanEQ = 298,
-    T_IntValue = 299,
-    T_FloatValue = 300,
-    T_String = 301,
-    T_Biblioteca = 302,
-    T_Identificador = 303,
-    T_Minus = 304,
-    T_Plus = 305,
-    T_Divide = 306,
-    T_Times = 307,
-    T_Negative = 308,
-    T_Power = 309
+    T_Print = 261,
+    T_ReadLine = 262,
+    T_OpenParen = 263,
+    T_CloseParen = 264,
+    T_OpenCloseParen = 265,
+    T_OpenBracket = 266,
+    T_CloseBracket = 267,
+    T_Comma = 268,
+    T_Quote = 269,
+    T_DotComma = 270,
+    T_doubleDot = 271,
+    T_Dot = 272,
+    T_For = 273,
+    T_If = 274,
+    T_While = 275,
+    T_Else = 276,
+    T_Switch = 277,
+    T_Case = 278,
+    T_Default = 279,
+    T_Do = 280,
+    T_OpenSquareBracket = 281,
+    T_BackSlash = 282,
+    T_CloseSquareBracket = 283,
+    T_Equals = 284,
+    T_UnderScore = 285,
+    T_Percent = 286,
+    T_ComercialAND = 287,
+    T_Return = 288,
+    T_Const = 289,
+    T_EndLine = 290,
+    T_Comment = 291,
+    T_Not = 292,
+    T_EqualsEQ = 293,
+    T_NegativeEquals = 294,
+    T_Or = 295,
+    T_And = 296,
+    T_SmallerThan = 297,
+    T_SmallerThanEQ = 298,
+    T_BiggerThan = 299,
+    T_BiggerThanEQ = 300,
+    T_IntValue = 301,
+    T_FloatValue = 302,
+    T_String = 303,
+    T_Biblioteca = 304,
+    T_Identificador = 305,
+    T_Minus = 306,
+    T_Plus = 307,
+    T_Divide = 308,
+    T_Times = 309,
+    T_Negative = 310,
+    T_Power = 311
   };
 #endif
 
@@ -108,11 +110,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 35 "lang.y"
+#line 36 "lang.y"
 
     int ival;
     int fval;
     char* sval;
+    char cval;
 
     struct VALUE{
         int type;
@@ -123,7 +126,7 @@ union YYSTYPE
         bool isResult;
     } value;
 
-#line 127 "lang.tab.h"
+#line 130 "lang.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

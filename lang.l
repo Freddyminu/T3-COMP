@@ -72,6 +72,8 @@ COMENTARIO $$.*
 "-"         { return T_Minus;   }
 "return"    { return T_Return;  }
 "const"    	{ return T_Const;   }
+"println"    	{ return T_Print;   }
+"stdin"    	{ return T_ReadLine;   }
 
 {ConstINT}      	{ yylval.ival = atof(yytext); return T_IntValue;		}
 {ConstFLOAT}      	{ yylval.ival = atof(yytext); return T_FloatValue;		}

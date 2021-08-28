@@ -1,0 +1,9 @@
+let n = 0;
+
+let numberOfEvens = 0;
+let i = 0;
+
+if [i==0] {
+    i=4;
+}
+println(i);

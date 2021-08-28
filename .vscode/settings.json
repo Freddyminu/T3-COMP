@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.lex": "lex",
+        "iostream": "cpp",
+        "vector": "cpp",
+        "ostream": "c"
+    }
+}
