@@ -10,7 +10,7 @@
 	.limit locals 4
 	ldc 0
 	istore 0
-	ldc 0
+	ldc 5
 	istore 1
 	ldc 0
 	istore 2
@@ -27,7 +27,7 @@
 A1:
 	iload 2
 	ldc 4
-	imul
+	ipow
 	istore 2
 A2:
 	getstatic java/lang/System/out Ljava/io/PrintStream;
