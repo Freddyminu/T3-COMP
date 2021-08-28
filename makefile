@@ -2,7 +2,7 @@ all:
 	bison lang.y -d -v
 	flex lang.l
 	g++ -g -o lang lang.tab.c lex.yy.c -lm
-	./lang < texto-exemplo-5.txt
+	./lang < texto-exemplo-4.txt
         
 jasmin:
 	java -jar jasmin.jar -g output.j

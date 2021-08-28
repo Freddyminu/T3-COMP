@@ -3,5 +3,5 @@ stdin(n);
 
 let k = 3;
 
-print(n);
-print(n);
+println(n);
+println(k);
