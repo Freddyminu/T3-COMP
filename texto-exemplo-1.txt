@@ -8,11 +8,8 @@ stdin(i);
 if [i==2] {
     i=i*4;
 	i=i*a;
-
 	println(i*2);
-
 	while[i == 20]{
 		println(i);
 	}
-
 }

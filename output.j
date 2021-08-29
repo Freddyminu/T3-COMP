@@ -12,56 +12,40 @@
 	istore 0
 	ldc 0
 	istore 1
-	ldc 0
+	ldc 40
 	istore 2
-	ldc 0
-	istore 3
-	astore 4
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	aload 4
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	new java/util/Scanner
-	dup
-	getstatic java/lang/System/in Ljava/io/InputStream;
-	invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V
-	invokevirtual java/util/Scanner/nextInt()I
-	istore 0
 	new java/util/Scanner
 	dup
 	getstatic java/lang/System/in Ljava/io/InputStream;
 	invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V
 	invokevirtual java/util/Scanner/nextInt()I
 	istore 1
-	iload 0
+	getstatic java/lang/System/out Ljava/io/PrintStream;
 	iload 1
-	iadd
-	istore 3
-	iload 3
-	ldc 0
+	ldc 2
+	imul
+	invokevirtual java/io/PrintStream/println(I)V
+	iload 1
+	ldc 20
+	if_icmplt A1
+	goto A2
+A1:
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload 1
+	invokevirtual java/io/PrintStream/println(I)V
+	iload 1
+	ldc 15
 	if_icmpgt A1
 	goto A2
 A1:
-	iload 0
 	iload 1
+	ldc 5
 	iadd
-	istore 2
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload 2
-	invokevirtual java/io/PrintStream/println(I)V
-	iload 0
-	iload 1
-	isub
-	istore 2
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload 2
-	invokevirtual java/io/PrintStream/println(I)V
-	iload 0
-	iload 1
-	imul
-	istore 2
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload 2
-	invokevirtual java/io/PrintStream/println(I)V
+	istore 1
 A2:
+A2:
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload 1
+	invokevirtual java/io/PrintStream/println(I)V
 return
 .end method

@@ -1,26 +1,11 @@
-let a = 0;
-let b = 0;
-let res = 0;
-let passagem = 0;
+let a = 2;
+let b = 3;
+let i = 0;
 
-let fala = "digite dois valores";
-
-println(fala);
-
-stdin(a);
-stdin(b);
-
-passagem = a + b;
-
-if [passagem > 0] {
-	res = a + b;
-	println(res);
-	res = a - b;
-	println(res);
-	res = a * b;
-	println(res);
-}
-
+do{
+	let a1 = 2;
+	println(i);
+}while[i == 0];
 
 
 
