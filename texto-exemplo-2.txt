@@ -1,16 +1,15 @@
 let n = 0;
 let i = 0;
-let a = 2;
+let a = 40;
 
 stdin(i);
 
 println(i*2);
 
-while[i == 20]{
+if [i < 20]{
 	println(i);
-	if [i==2] {
-    	i=i*4;
-		i=i*a;
+	if [i > 15] {
+    	i=i+5;
 	}
 }
 println(i);
