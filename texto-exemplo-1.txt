@@ -1,23 +1,18 @@
-import math;
 let n = 0;
-stdin(n);
-let numberOfEvens = 0;
+let numberOfEvens = 5;
+let i = 0;
+let a = 2;
 
-switch[n] {
-	case [4] {
-		math();
+stdin(i);
+
+if [i==2] {
+    i=i*4;
+	i=i*a;
+
+	println(i*2);
+
+	while[i == 20]{
+		println(i);
 	}
-	default {
-		import math;
-	}
+
 }
-while [n != 25 ] {
-	math();
-}
-$$ isso eh um comentario
-do {
-	math();
-	import math;
-	n++;
-} while [n != 25];
-println(numberOfEvens);

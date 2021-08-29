@@ -1,29 +1,16 @@
-import String;
-const a = stdin();
-let b = 33;
-let c = 344;
-let d = 4;
-let e = 5;
-const f = 20;
-
-let n = 2;
-let m = 4;
+let n = 0;
 let i = 0;
+let a = 2;
 
-let jorge = "STRING";
+stdin(i);
 
-let numberOfEvens = 2;
-for [i:(0,n,2)] {
-	for [i:(0,m,1)] {
-		if [i * 2 == 0] {
-			a = 12 + 2;
-			b = 4 - 2;
-			c = 8 / 4;
-			d = 2 * 3;
-			e = 2 ^ 8;
-		} 
+println(i*2);
+
+while[i == 20]{
+	println(i);
+	if [i==2] {
+    	i=i*4;
+		i=i*a;
 	}
 }
-
-println("Teste");
-println(f);
+println(i);
