@@ -9,6 +9,7 @@
 
     #include "symbolTable.cpp"
     #include "jasminGen.cpp"
+    #include "utils.cpp"
 
     #define INT 0
     #define FLOAT 1
@@ -153,7 +154,8 @@ structure_while: T_While T_OpenSquareBracket { labelGen(label,2); } logical_expr
 
 structure_do: T_Do T_OpenBracket lines T_CloseBracket T_While T_OpenSquareBracket {  go_to(label,2); labelGen(label,1); }  logical_expression T_CloseSquareBracket {labelGen(label,2);};;
 
-print: T_Print T_OpenParen  {printInit();} variable T_CloseParen T_DotComma {printf("==>%d\n",type);printEnd(type);};
+print: T_Print T_OpenParen  {printInit();} variable T_CloseParen T_DotComma {printf("==>%d\n",type);printEnd(type);}
+    ;
 
 logical_expression: expression T_EqualsEQ expression {$$ = $1 == $3; compare("eq",label);}
         | expression T_NegativeEquals expression {$$ = $1 != $3; compare("ne",label);}
@@ -165,7 +167,7 @@ logical_expression: expression T_EqualsEQ expression {$$ = $1 == $3; compare("eq
         | expression T_And expression {$$ = $1 && $3; compare("and",label);}
         | T_Not expression {$$ = !$2;};
 
-variable: T_String {type = STRING; string str=$1;}
+variable: T_String {type = STRING; literalLoad($1);}
     | expression
         // {printf(" Resultado: %d\n", $1);}
     | function_usage {type = FUNCTION;};

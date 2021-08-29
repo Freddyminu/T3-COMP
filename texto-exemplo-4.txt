@@ -1,0 +1,5 @@
+let fala = "digite dois valores";
+let name = "";
+stdin(name);
+println("fala");
+println(name + "fala");

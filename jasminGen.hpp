@@ -44,3 +44,4 @@ void labelGen(char to, int num);
 void load(string name);
 void store(string name);
 void compare(string cm,char label);
+void literalLoad(char* c);

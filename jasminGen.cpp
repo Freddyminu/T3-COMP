@@ -1,4 +1,5 @@
 #include"jasminGen.hpp"
+#include "utils.hpp"
 #include<fstream>
 
 
@@ -104,5 +105,14 @@ void compare(string cm,char label){
     str.append(cm+" ");
     str+=label;
     str+="1";
+    output.push_back(str);
+}
+
+void literalLoad(char* c){
+    cout << "caiu aqui" << endl;
+    char* formatedChar = removeQuotes(c);
+    string str = "\tldc \"";
+    str.append(formatedChar);
+    str.append("\"");
     output.push_back(str);
 }
