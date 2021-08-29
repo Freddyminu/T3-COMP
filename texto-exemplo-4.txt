@@ -1,5 +1,10 @@
-let fala = "digite dois valores";
-let name = "";
-stdin(name);
-println("fala");
-println(name + "fala");
+let fala = "digite dois nomes";
+let name1 = "";
+let name2 = "";
+println(fala);
+stdin(name1);
+stdin(name2);
+println("Primeiro nome:");
+println(name1);
+println("Segundo nome nome:");
+println(name2);

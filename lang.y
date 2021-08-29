@@ -102,7 +102,7 @@ line:  T_EndLine
     | print
     | T_ReadLine T_OpenParen T_Identificador T_CloseParen T_DotComma {token v = getSymbol($3);
                                                                                 read(v.type);
-                                                                                store(v.name); printf("ALO?\n");}
+                                                                                store(v.name);}
     ;
 
 import: T_Import T_Identificador ;

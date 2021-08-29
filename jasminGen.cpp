@@ -109,7 +109,6 @@ void compare(string cm,char label){
 }
 
 void literalLoad(char* c){
-    cout << "caiu aqui" << endl;
     char* formatedChar = removeQuotes(c);
     string str = "\tldc \"";
     str.append(formatedChar);

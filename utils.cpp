@@ -3,7 +3,6 @@
 
 
 char* removeQuotes(char* word){
-    std::cout << "caiu aqui também" << std::endl;
     char* newWord = (char*)malloc(sizeof(word)-(2*sizeof(char)));
     int i;
     for(i=1;word[i]!='"';i++){
